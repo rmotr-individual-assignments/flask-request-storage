@@ -1,7 +1,8 @@
+import os
+import sqlite3
 import unittest
 
-from app import app, connect_db
-
+from app import app
 from config import DATABASE_NAME
 
 
@@ -9,11 +10,12 @@ class RequestsTestCase(unittest.TestCase):
 
     def setUp(self):
         self.app = app.test_client()
+        self.db = sqlite3.connect(DATABASE_NAME)
+        self.db.execute("CREATE TABLE request (url text, method text)")
+        self.db.commit()
 
     def tearDown(self):
-        self.db = connect_db()
-        self.db.execute('DELETE FROM request;')
-        self.db.commit()
+        os.remove(DATABASE_NAME)
 
     def test_dashboard(self):
         """Should return data from performed requests stored in the DB"""
