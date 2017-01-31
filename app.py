@@ -1,11 +1,11 @@
 import sqlite3
 from flask import Flask, g, render_template_string, request
-from config import DATABASE_NAME
+
 
 app = Flask(__name__)
 
 def connect_db():
-    return sqlite3.connect(DATABASE_NAME)
+    return sqlite3.connect(app.config['DATABASE_NAME'])
 
 
 @app.before_request
