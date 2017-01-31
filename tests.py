@@ -3,19 +3,32 @@ import sqlite3
 import unittest
 
 from app import app
-from config import DATABASE_NAME
+
+
+TESTING_DATABASE_NAME = 'test_requests.db'
+app.config.update({
+    'DATABASE_NAME': TESTING_DATABASE_NAME
+})
 
 
 class RequestsTestCase(unittest.TestCase):
+    
+
+    @classmethod
+    def setUpClass(cls):
+        cls.db = sqlite3.connect(TESTING_DATABASE_NAME)
+        cls.db.execute("CREATE TABLE request (url text, method text)")
+        cls.db.commit()
 
     def setUp(self):
         self.app = app.test_client()
-        self.db = sqlite3.connect(DATABASE_NAME)
-        self.db.execute("CREATE TABLE request (url text, method text)")
+        # Reset request table BEFORE every test.
+        self.db.execute("DELETE FROM request;")
         self.db.commit()
 
-    def tearDown(self):
-        os.remove(DATABASE_NAME)
+    @classmethod
+    def tearDownClass(cls):
+        os.remove(TESTING_DATABASE_NAME)
 
     def test_dashboard(self):
         """Should return data from performed requests stored in the DB"""
