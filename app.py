@@ -4,6 +4,7 @@ from flask import Flask, g, render_template_string, request
 
 app = Flask(__name__)
 
+
 def connect_db():
     return sqlite3.connect(app.config['DATABASE_NAME'])
 
@@ -22,8 +23,8 @@ def home():
         g.db.execute(query, params)
         g.db.commit()
     except sqlite3.IntegrityError:
-        flash('Something went wrong while saving your request data', 'danger')
-    return ('', 200)
+        return 'Error with DB', 400
+    return 'Success', 200
 
 
 @app.route('/dashboard')
