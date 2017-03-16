@@ -18,6 +18,12 @@ We've, in total, sent 7 requests. Our dashboard should look something like:
 
 ## Testing your app
 
+To run the tests in this app just run:
+
+```bash
+$ py.test tests.py
+```
+
 Aside from running the test commands, you can of course just navigate to `http://localhost:8080/home` and submit a few GET requests. If you want to send other types of requests we've included a command `ping_api.py` that lets you submit any type of request to a given URL. Usage:
 
 ```bash

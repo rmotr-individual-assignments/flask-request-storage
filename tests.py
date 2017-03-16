@@ -12,7 +12,7 @@ app.config.update({
 
 
 class RequestsTestCase(unittest.TestCase):
-    
+
 
     @classmethod
     def setUpClass(cls):
@@ -41,12 +41,13 @@ class RequestsTestCase(unittest.TestCase):
         for i in range(3):
             self.app.patch('/home')
         response = self.app.get('/dashboard')
-        self.assertTrue('Total requests: 26' in response.data)
-        self.assertTrue('GET requests: 10' in response.data)
-        self.assertTrue('POST requests: 8' in response.data)
-        self.assertTrue('PUT requests: 5' in response.data)
-        self.assertTrue('PATCH requests: 3' in response.data)
-        self.assertTrue('DELETE requests: 0' in response.data)
+        data = response.get_data(as_text=True)
+        self.assertTrue('Total requests: 26' in data)
+        self.assertTrue('GET requests: 10' in data)
+        self.assertTrue('POST requests: 8' in data)
+        self.assertTrue('PUT requests: 5' in data)
+        self.assertTrue('PATCH requests: 3' in data)
+        self.assertTrue('DELETE requests: 0' in data)
 
 if __name__ == '__main__':
     unittest.main()
